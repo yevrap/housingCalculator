@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+
+window.onload = function() {
+    document.getElementById("inputIncome").focus();
+};
+
+function calcRent() {
+    var inputIncome = document.getElementById("inputIncome").value;
+    var rentAmount;
+    
+    var radios = document.getElementsByName("timePeriod");
+    
+    for (var i = 0, length = radios.length; i < length; i++) {
+        if (radios[i].checked) {
+            if (radios[i].value == "yearly") {
+                rentAmount = inputIncome / 4 / 12;
+                
+            } else if (radios[i].value == "monthly") {
+                rentAmount = inputIncome / 4;
+
+            }else if (radios[i].value == "hourly") {
+                rentAmount = inputIncome * 2000 / 4 / 12;
+                
+            }
+            rentAmount = Math.round(rentAmount);
+            break;
+        }
+    }
+    if (Number.isInteger(rentAmount)) {
+        document.getElementById("calculatedRent").innerHTML = "You can pay $" + rentAmount + " per month in rent";
+    } else {
+        document.getElementById("calculatedRent").innerHTML = "Enter a valid amount";
+    }
+}
+
+function reset() {
+    document.getElementById("inputIncome").value = "";
+    document.getElementById("calculatedRent").innerHTML = "";
+    
+}
+</script>
+</head>
+<body>
+    <h1>Rent Calculator</h1>
+    <p>Enter income to see how much rent you can afford to pay</p>
+
+    <input type="text" 
+        Income: $ 
+        Id="inputIncome"
+        onkeydown = "if (event.keyCode == 13) {
+                        calcRent()
+                    } else if (event.keyCode == 27) {
+                        reset()
+                    }">
+                    
+    <button type="button" onclick="calcRent()"> Submit </button>
+    <button type="button" onclick="reset()"> Reset </button>
+    <br>
+    <form action="">
+        <input type="radio" name="timePeriod" value="yearly" checked="checked"> Yearly
+        <input type="radio" name="timePeriod" value="monthly"> Monthly
+        <input type="radio" name="timePeriod" value="hourly" id="hourly"> Hourly
+    </form>
+
+    <p Id="calculatedRent"></p>
+
+</body>
+</html>
